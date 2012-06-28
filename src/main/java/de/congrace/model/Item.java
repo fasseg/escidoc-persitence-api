@@ -118,12 +118,11 @@ public class Item {
 			this.name = name;
 		}
 
-		public static Builder fromItem(Item item) {
-			Builder b = new Builder(item.getName(), item.getContextId());
-			b.id = item.getId();
-			b.location = item.getLocation();
-			b.name = item.getName();
-			return b;
+		public Builder(Item item) {
+			this.contextId=item.getContextId();
+			this.id=item.getId();
+			this.location = item.getLocation();
+			this.name = item.getName();
 		}
 
 		public Builder id(Identifier id) {
