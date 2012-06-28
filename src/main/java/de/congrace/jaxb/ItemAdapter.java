@@ -8,6 +8,11 @@ import de.congrace.model.Context;
 import de.congrace.model.Identifier;
 import de.congrace.model.Item;
 
+/**
+ * Helper class for JAXB Serialization/deserialization in order to keep the model immutable
+ * @author fasseg
+ *
+ */
 public class ItemAdapter extends XmlAdapter<ItemAdapter.ItemValue, Item> {
 
 	@Override
@@ -15,14 +20,14 @@ public class ItemAdapter extends XmlAdapter<ItemAdapter.ItemValue, Item> {
 		ItemValue val=new ItemValue();
 		val.id = v.getId();
 		val.name=v.getName();
-		val.context=v.getContext();
+		val.contextId=v.getContextId();
 		val.location=v.getLocation();
 		return val;
 	}
 
 	@Override
 	public Item unmarshal(ItemValue v) throws Exception {
-		return new Item.Builder(v.name, v.context)
+		return new Item.Builder(v.name, v.contextId)
 			.id(v.id)
 			.location(v.location)
 			.build();
@@ -31,7 +36,7 @@ public class ItemAdapter extends XmlAdapter<ItemAdapter.ItemValue, Item> {
 	static final class ItemValue {
 		private Identifier id;
 		private String name;
-		private Context context;
+		private Identifier contextId;
 		private URI location;
 
 		private ItemValue() {

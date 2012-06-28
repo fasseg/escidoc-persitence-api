@@ -5,6 +5,11 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import de.congrace.model.Context;
 import de.congrace.model.Identifier;
 
+/**
+ * Helper class for JAXB Serialization/deserialization in order to keep the model immutable
+ * @author fasseg
+ *
+ */
 public class ContextAdapter extends XmlAdapter<ContextAdapter.ContextValue, Context> {
 	public ContextValue marshal(Context v) throws Exception {
 		ContextValue val = new ContextValue();

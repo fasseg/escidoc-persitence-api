@@ -5,6 +5,11 @@ import java.util.UUID;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Immutable Data transfer object
+ * @author fasseg
+ *
+ */
 @XmlRootElement(name="id")
 public class Identifier {
 	@XmlAttribute
@@ -15,6 +20,7 @@ public class Identifier {
 		this.value = value;
 	}
 	
+	//JAXB needs this private constructor on root elements
 	private Identifier(){
 		super();
 		this.value=null;

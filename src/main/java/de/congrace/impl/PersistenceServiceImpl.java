@@ -6,6 +6,11 @@ import de.congrace.api.PersistenceImplementor;
 import de.congrace.api.PersistenceService;
 import de.congrace.model.Identifier;
 
+/**
+ * Implements the bridge pattern by decoupling abstraction and API
+ * @author fasseg
+ *
+ */
 public final class PersistenceServiceImpl implements PersistenceService {
 	private final PersistenceImplementor implementor;
 

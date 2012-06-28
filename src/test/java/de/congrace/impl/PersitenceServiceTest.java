@@ -29,7 +29,7 @@ public class PersitenceServiceTest {
 		Context ctx = new Context.Builder("test-context-1")
 				.id(Identifier.randomIdentifier())
 				.build();
-		Item itm = new Item.Builder("test-item-1", ctx)
+		Item itm = new Item.Builder("test-item-1", ctx.getId())
 				.id(Identifier.randomIdentifier())
 				.location(URI.create("file://example.com/content"))
 				.build();
@@ -51,7 +51,7 @@ public class PersitenceServiceTest {
 		Context ctx = new Context.Builder("test-context-1")
 				.id(Identifier.randomIdentifier())
 				.build();
-		Item itm = new Item.Builder("test-item-1", ctx)
+		Item itm = new Item.Builder("test-item-1", ctx.getId())
 				.id(Identifier.randomIdentifier())
 				.location(URI.create("file://example.com/content"))
 				.build();

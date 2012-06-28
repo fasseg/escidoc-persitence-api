@@ -7,6 +7,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import de.congrace.jaxb.ContextAdapter;
 
+/**
+ * Immutable Data transfer object
+ * @author fasseg
+ *
+ */
 @XmlRootElement(name="context")
 public class Context {
 	@XmlElement
@@ -14,6 +19,7 @@ public class Context {
 	@XmlElement
 	private final String name;
 	
+	//JAXB needs this private constructor on root elements
 	private Context(){
 		this.id=null;
 		this.name=null;
