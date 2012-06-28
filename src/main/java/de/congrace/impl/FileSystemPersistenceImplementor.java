@@ -25,7 +25,8 @@ import de.congrace.model.Item;
  * @author ruckus
  * 
  */
-public final class FileSystemPersistenceImplementor implements PersistenceImplementor {
+public class FileSystemPersistenceImplementor implements PersistenceImplementor {
+	
 	private static File getDirectory(final String path) {
 		File f = new File(path);
 		if (!f.exists()) {
