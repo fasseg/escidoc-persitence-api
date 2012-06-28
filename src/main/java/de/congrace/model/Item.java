@@ -120,9 +120,9 @@ public class Item {
 
 		public static Builder fromItem(Item item) {
 			Builder b = new Builder(item.getName(), item.getContextId());
-			b.id = item.getId();
-			b.location = item.getLocation();
-			b.name = item.getName();
+			b.id = new Identifier(new String(item.getId().getValue()));
+			b.location = URI.create(item.getLocation().toASCIIString());
+			b.name = new String(item.getName());
 			return b;
 		}
 

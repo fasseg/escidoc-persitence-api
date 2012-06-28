@@ -78,6 +78,12 @@ public class Context {
 			this.name = name;
 		}
 		
+		public static Builder fromContext(Context ctx){
+			Builder b=new Builder(new String(ctx.getName()));
+			b.id=new Identifier(new String(ctx.getId().getValue()));
+			return b;
+		}
+		
 		public Builder id(Identifier id){
 			this.id=id;
 			return this;
