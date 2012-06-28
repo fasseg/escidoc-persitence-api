@@ -18,8 +18,8 @@ public final class PersistenceServiceImpl implements PersistenceService {
 		this.implementor = implementor;
 	}
 
-	public void delete(Identifier id) throws IOException {
-		implementor.delete(id);
+	public <T> void delete(Identifier id,Class<T> type) throws IOException {
+		implementor.delete(id,type);
 	}
 
 	public <T> T load(Identifier id, Class<T> type) throws IOException {

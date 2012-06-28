@@ -58,14 +58,62 @@ public final class FileSystemPersistenceImplementor implements PersistenceImplem
 		}
 	}
 
-	private void assertDirectoryAccesible(File dir) throws IOException {
+	private void assertDirectoryAccessible(File dir) throws IOException {
 		if (!dir.exists() || !dir.canRead() || !dir.canWrite() || !dir.isDirectory()) {
 			throw new IOException("Unable to read/write to item directory " + itemDirectory.getAbsolutePath());
 		}
 	}
 
-	public void delete(Identifier id) {
+	public <T> void delete(Identifier id, Class<T> type) throws IOException {
+		if (type == Item.class){
+			deleteItem(id);
+		}else if (type == Context.class){
+			deleteContext(id);
+		}else{
+			throw new IOException("Unable to delete objects of type " + type.getName());
+		}
+	}
 
+	private void deleteContext(Identifier id) throws IOException{
+		assertDirectoryAccessible(contextDirectory);
+		Context ctx=loadContext(id);
+		if (isContextInUse(ctx)){
+			throw new IOException("Unable to delete a used context");
+		}
+		File f=new File(contextDirectory,id.getValue().toString() + ".xml");
+		deleteFile(f);
+	}
+
+	private boolean isContextInUse(Context ctx) throws IOException{
+		for (String name:itemDirectory.list()){
+			if (name.endsWith(".xml")){
+				File f=new File(itemDirectory.getAbsolutePath()  + "/" + name);
+				InputStream is=null;
+				try{
+					is=new FileInputStream(f);
+					Item i = (Item) unmarshal(is);
+					if (i.getContextId().equals(ctx.getId())){
+						return true;
+					}
+				}finally{
+					IOUtils.closeQuietly(is);
+				}
+			}
+		}
+		return false;
+	}
+
+	private void deleteFile(File f) throws IOException{
+		if (!f.exists() || !f.canWrite()){
+			throw new IOException("Unable to delete file " + f.getAbsolutePath());
+		}
+		f.delete();
+	}
+
+	private void deleteItem(Identifier id) throws IOException{
+		assertDirectoryAccessible(itemDirectory);
+		File f = new File(itemDirectory,id.getValue().toString() + ".xml");
+		deleteFile(f);
 	}
 
 	public <T> T load(Identifier id, Class<T> type) throws IOException {
@@ -79,7 +127,7 @@ public final class FileSystemPersistenceImplementor implements PersistenceImplem
 	}
 
 	private Context loadContext(Identifier id) throws IOException {
-		assertDirectoryAccesible(contextDirectory);
+		assertDirectoryAccessible(contextDirectory);
 		InputStream is = null;
 		try {
 			is = new FileInputStream(new File(contextDirectory, id.getValue().toString() + ".xml"));
@@ -90,7 +138,7 @@ public final class FileSystemPersistenceImplementor implements PersistenceImplem
 	}
 
 	private Item loadItem(Identifier id) throws IOException {
-		assertDirectoryAccesible(itemDirectory);
+		assertDirectoryAccessible(itemDirectory);
 		InputStream itemStream = null;
 		try {
 			itemStream = new FileInputStream(new File(itemDirectory, id.getValue().toString() + ".xml"));
@@ -120,7 +168,7 @@ public final class FileSystemPersistenceImplementor implements PersistenceImplem
 
 	private void saveContext(final Context context, final boolean overwrite) throws IOException {
 		final File f = new File(contextDirectory, context.getId().getValue().toString() + ".xml");
-		assertDirectoryAccesible(contextDirectory);
+		assertDirectoryAccessible(contextDirectory);
 		if (f.exists() && !overwrite) {
 			throw new IOException(context.getId().toString() + " already exists in "
 					+ contextDirectory.getAbsolutePath());
@@ -136,7 +184,7 @@ public final class FileSystemPersistenceImplementor implements PersistenceImplem
 
 	private void saveItem(final Item item, final boolean overwrite) throws IOException {
 		final File f = new File(itemDirectory, item.getId().getValue().toString() + ".xml");
-		assertDirectoryAccesible(itemDirectory);
+		assertDirectoryAccessible(itemDirectory);
 		if (f.exists() && !overwrite) {
 			throw new IOException(item.getId().toString() + " already exists in "
 					+ itemDirectory.getAbsolutePath());
