@@ -1,0 +1,7 @@
+ A proopsal for a persistence API
+=================================
+
+
+This API is designed around the Bridge pattern.
+The actual usage can be seen in the Test case 
+"PersistenceServiceTest.java"
