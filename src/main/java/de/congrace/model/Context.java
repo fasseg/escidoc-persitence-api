@@ -26,8 +26,8 @@ public class Context {
 	}
 	
 	private Context(Builder b) {
-		this.id=b.id;
-		this.name=b.name;
+		this.id=new Identifier(new String(b.id.getValue()));
+		this.name=new String(b.name);
 	}
 	
 	public Identifier getId() {
@@ -80,7 +80,7 @@ public class Context {
 		
 		public static Builder fromContext(Context ctx){
 			Builder b=new Builder(new String(ctx.getName()));
-			b.id=new Identifier(new String(ctx.getId().getValue()));
+			b.id=ctx.getId();
 			return b;
 		}
 		

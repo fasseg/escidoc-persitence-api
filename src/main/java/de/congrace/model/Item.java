@@ -36,10 +36,10 @@ public class Item {
 
 	private Item(Builder b) {
 		super();
-		this.id = b.id;
-		this.name = b.name;
-		this.location = b.location;
-		this.contextId = b.contextId;
+		this.id = new Identifier(new String(b.id.getValue()));
+		this.name = new String(b.name);
+		this.location = URI.create(b.location.toASCIIString());
+		this.contextId = new Identifier(new String(b.contextId.getValue()));
 	}
 
 	public Identifier getId() {
@@ -120,9 +120,9 @@ public class Item {
 
 		public static Builder fromItem(Item item) {
 			Builder b = new Builder(item.getName(), item.getContextId());
-			b.id = new Identifier(new String(item.getId().getValue()));
-			b.location = URI.create(item.getLocation().toASCIIString());
-			b.name = new String(item.getName());
+			b.id = item.getId();
+			b.location = item.getLocation();
+			b.name = item.getName();
 			return b;
 		}
 
