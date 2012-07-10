@@ -31,6 +31,6 @@ public final class PersistenceServiceImpl implements PersistenceService {
 
 	public <T> void save(T object,boolean overwrite) throws IOException {
 		implementor.save(object,overwrite);
-	};
+	}
 
 }
